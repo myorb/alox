@@ -11,7 +11,7 @@ namespace app\models;
 
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
-use \yii\redis\ActiveRecord;
+use yii\redis\ActiveRecord;
 
 class Apartment extends ActiveRecord
 {
@@ -38,6 +38,29 @@ class Apartment extends ActiveRecord
 
     public function attributes()
     {
-        return ['id', 'name', 'address', 'registration_date','author_id','updater_id','created_at','updated_at'];
+        return [
+            'id',
+            'title',
+            'description',
+            'price',
+            'address',
+            'show_on_map',
+            'html',
+            'query_id',
+            'author_id',
+            'updater_id',
+            'created_at',
+            'updated_at'
+        ];
+    }
+
+    public function getQuery()
+    {
+        return $this->hasOne(Query::className(), ['id' => 'query_id']);
+    }
+
+    public function getImage()
+    {
+        return $this->hasOne(Image::className(), ['id' => 'model_id']);
     }
 }

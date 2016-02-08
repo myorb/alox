@@ -3,15 +3,16 @@
  * Created by PhpStorm.
  * User: alex
  * Date: 08.02.16
- * Time: 02:46
+ * Time: 02:59
  */
+
 namespace app\models;
 
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\redis\ActiveRecord;
 
-class Query extends ActiveRecord
+class Image extends ActiveRecord
 {
     public function behaviors()
     {
@@ -35,12 +36,7 @@ class Query extends ActiveRecord
 
     public function attributes()
     {
-        return ['id', 'name', 'url', 'author_id','updater_id','created_at','updated_at'];
-    }
-
-    public function getApartments()
-    {
-        return $this->hasMany(Apartment::className(), ['query_id' => 'id']);
+        return ['id','model_name','model_id','file','path','link','author_id','updater_id','created_at','updated_at'];
     }
 
     public function getModel()
