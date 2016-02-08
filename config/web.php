@@ -38,14 +38,20 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-        /*
+        'redis' => [
+            'class' => 'yii\redis\Connection',
+            'hostname' => '192.168.99.100',
+            'port' => 32769,
+            'database' => 0,
+        ],
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+
     ],
     'params' => $params,
 ];
