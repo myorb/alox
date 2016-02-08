@@ -40,7 +40,7 @@ class ApartmentSearch extends Apartment
      */
     public function search($params)
     {
-        $query = Apartment::find();
+        $query = Apartment::find()->orderBy(['id' => SORT_DESC]);
 
         // add conditions that should always apply here
 

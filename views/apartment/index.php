@@ -27,7 +27,7 @@ Pjax::begin(); ?>    <?= GridView::widget([
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-//            'id',
+            'id',
             'title',
 //            'description',
             'price',

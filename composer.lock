@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d690b4df765e258e047e89b8436afd7e",
-    "content-hash": "61a984f9a5de172f83b085a3737ae259",
+    "hash": "b9bb1596d8b2b555376717756be3b04f",
+    "content-hash": "a714123ba8b587d6e9640572e1c352e1",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -1659,6 +1659,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "yiisoft/yii2-redis": 20,
         "guzzlehttp/guzzle": 20,
         "keltstr/yii2-simplehtmldom": 20
     },

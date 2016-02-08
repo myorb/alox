@@ -73,12 +73,24 @@ class ApartmentController extends Controller
 //            echo $element->src . '<br>';
 
 // Find all links
+        $parsingQue = [];
+        $count = 0;
         foreach($html->find('.offer') as $element){
-//            $model = new Apartment();
-//            $e =  $element->find('a');
-            var_dump($element->outertext);
+            $link =  $element->find(".link",0);
+            $price = $element->find(".price",0);
+            $ap = Apartment::find()->where(['url' => $link->href])->one();
+            if(!$ap){
+                $count++;
+                $apartment = new Apartment();
+                $apartment->url = $link->href;
+                $apartment->title = $link->plaintext;
+                $apartment->price = $price->plaintext;
+                $apartment->query_id = $v->id;
+                $apartment->save();
+            }
         }
 
+        echo $count;
 
 //            var_dump( $element) . '<hr>';
 

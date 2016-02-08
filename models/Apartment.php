@@ -47,6 +47,7 @@ class Apartment extends ActiveRecord
                 'address',
                 'show_on_map',
                 'html',
+                'url',
                 'query_id',
 
             ], 'safe'],
@@ -64,6 +65,7 @@ class Apartment extends ActiveRecord
             'address',
             'show_on_map',
             'html',
+            'url',
             'query_id',
             'author_id',
             'updater_id',
