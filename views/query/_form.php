@@ -4,20 +4,18 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Customer */
+/* @var $model app\models\Query */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="customer-form">
+<div class="query-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
 
     <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'address') ?>
-
-    <?= $form->field($model, 'registration_date') ?>
+    <?= $form->field($model, 'url') ?>
 
     <?= $form->field($model, 'author_id') ?>
 

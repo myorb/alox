@@ -4,20 +4,28 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Customer */
+/* @var $model app\models\Apartment */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="customer-form">
+<div class="apartment-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
 
-    <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'title') ?>
+
+    <?= $form->field($model, 'description') ?>
+
+    <?= $form->field($model, 'price') ?>
 
     <?= $form->field($model, 'address') ?>
 
-    <?= $form->field($model, 'registration_date') ?>
+    <?= $form->field($model, 'show_on_map') ?>
+
+    <?= $form->field($model, 'html') ?>
+
+    <?= $form->field($model, 'query_id') ?>
 
     <?= $form->field($model, 'author_id') ?>
 

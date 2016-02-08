@@ -4,20 +4,24 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Customer */
+/* @var $model app\models\Image */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="customer-form">
+<div class="image-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
 
-    <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'model_name') ?>
 
-    <?= $form->field($model, 'address') ?>
+    <?= $form->field($model, 'model_id') ?>
 
-    <?= $form->field($model, 'registration_date') ?>
+    <?= $form->field($model, 'file') ?>
+
+    <?= $form->field($model, 'path') ?>
+
+    <?= $form->field($model, 'link') ?>
 
     <?= $form->field($model, 'author_id') ?>
 
