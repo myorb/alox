@@ -40,7 +40,8 @@ class ApartmentController extends Controller
     public function actionIndex()
     {
         $searchModel = new ApartmentSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $r = Yii::$app->request->queryParams;
+        $dataProvider = $searchModel->search($r);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -48,47 +49,37 @@ class ApartmentController extends Controller
         ]);
     }
 
+
     /**
      * Lists all Apartment models.
      * @return mixed
      */
     public function actionReload()
     {
-        $links = [];
-        $q = Query::find()->all();
+        $r = Yii::$app->request->queryParams;
+        $q = $this->findQuery(isset($r['ApartmentSearch']['query_id'])?$r['ApartmentSearch']['query_id']:null);
         $count = 0;
-        foreach($q as $v){
-            $url = $v->url;
-            $html = SHD::file_get_html($url);
-            $count = 0;
-            foreach($html->find('.offer') as $element){
-                $link = $element->find(".link", 0);
-                $price = $element->find(".price", 0);
-                $image = $element->find("img", 0);
-                $ap = Apartment::find()->where(['url' => $link->href])->one();
-                if (!$ap) {
-                    $count++;
-                    $apartment = new Apartment();
-                    $apartment->url = $link->href;
-                    $apartment->title = $link->plaintext;
-                    $apartment->price = $price->plaintext;
-                    $apartment->query_id = $v->id;
-                    if($image)
-                        $apartment->image_link = $image->src;
-                    $apartment->save();
-                }
-
+        $url = $q->url;
+        $html = SHD::file_get_html($url);
+        foreach($html->find('.offer') as $element){
+            $link = $element->find(".link", 0);
+            $price = $element->find(".price", 0);
+            $image = $element->find("img", 0);
+            $ap = Apartment::find()->where(['url' => $link->href])->one();
+            if (!$ap) {
+                $count++;
+                $apartment = new Apartment();
+                $apartment->url = $link->href;
+                $apartment->title = $link->plaintext;
+                $apartment->price = $price->plaintext;
+                $apartment->query_id = $q->id;
+                if($image)
+                    $apartment->image_link = $image->src;
+                $apartment->save();
             }
-            echo $count;
-        }
 
-//        $searchModel = new ApartmentSearch();
-//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-//
-//        return $this->render('index', [
-//            'searchModel' => $searchModel,
-//            'dataProvider' => $dataProvider,
-//        ]);
+        }
+        echo $count;
     }
 
 
@@ -164,6 +155,15 @@ class ApartmentController extends Controller
     protected function findModel($id)
     {
         if (($model = Apartment::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    protected function findQuery($id)
+    {
+        if (($model = Query::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

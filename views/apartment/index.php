@@ -13,11 +13,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="apartment-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Apartment', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Reload', ['reload'], ['class' => 'btn btn-info', 'id' => 'refreshButton']) ?>
+        <?php // Html::a('Create Apartment', ['create'], ['class' => 'btn btn-success']) ?>
 
     </p>
 <?php
@@ -39,6 +38,7 @@ Pjax::begin(['id' => 'apartments']); ?>
                     return Html::a($data->title,$data->url,['target'=>'_blank']);
                 },
             ],
+//            'query_id',
 //            'description',
             'price',
             'address',
@@ -62,10 +62,12 @@ $this->registerJs(
             event.preventDefault();
             var self = $(this);
             self.attr("disabled", true);
-            $.get(this.href, function(data){
+            var form = self.parents("form").serialize();
+            $.get(this.href,form, function(data){
                 if(data > 0){
                     $.pjax.reload("#apartments",{timeout:2200});  //Reload GridView
                 }
+                $("#totalUpdate").html(data);
                 self.removeAttr("disabled");
             });
         });

@@ -15,21 +15,21 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?php // echo $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'title') ?>
+    <?php // echo $form->field($model, 'title') ?>
 
-    <?= $form->field($model, 'description') ?>
+    <?php // echo $form->field($model, 'description') ?>
 
-    <?= $form->field($model, 'price') ?>
+    <?php // echo $form->field($model, 'price') ?>
 
-    <?= $form->field($model, 'address') ?>
+    <?php // echo $form->field($model, 'address') ?>
 
     <?php // echo $form->field($model, 'show_on_map') ?>
 
     <?php // echo $form->field($model, 'html') ?>
 
-    <?php // echo $form->field($model, 'query_id') ?>
+    <?php  echo $form->field($model, 'query_id')->dropDownList(\yii\helpers\ArrayHelper::map(\app\models\Query::find()->all(), 'id', 'name')) ?>
 
     <?php // echo $form->field($model, 'author_id') ?>
 
@@ -42,6 +42,8 @@ use yii\widgets\ActiveForm;
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Reload', ['reload'], ['class' => 'btn btn-info', 'id' => 'refreshButton']) ?><span id="totalUpdate" class="badge"></span>
+
     </div>
 
     <?php ActiveForm::end(); ?>

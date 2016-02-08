@@ -40,35 +40,40 @@ class ApartmentSearch extends Apartment
      */
     public function search($params)
     {
-        $query = Apartment::find()->orderBy(['id' => SORT_DESC]);
+        $query = Apartment::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]
+            ],
         ]);
 
         $this->load($params);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+             $query->where('0=1');
             return $dataProvider;
         }
 
         // grid filtering conditions
-        $query->andFilterWhere(['like', 'id', $this->id])
-            ->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'price', $this->price])
-            ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['like', 'show_on_map', $this->show_on_map])
-            ->andFilterWhere(['like', 'html', $this->html])
-            ->andFilterWhere(['like', 'query_id', $this->query_id])
-            ->andFilterWhere(['like', 'author_id', $this->author_id])
-            ->andFilterWhere(['like', 'updater_id', $this->updater_id])
-            ->andFilterWhere(['like', 'created_at', $this->created_at])
-            ->andFilterWhere(['like', 'updated_at', $this->updated_at]);
+        $query->andFilterWhere(['in', 'id', $this->id])
+            ->andFilterWhere(['in', 'title', $this->title])
+            ->andFilterWhere(['in', 'description', $this->description])
+            ->andFilterWhere(['in', 'price', $this->price])
+            ->andFilterWhere(['in', 'address', $this->address])
+            ->andFilterWhere(['in', 'show_on_map', $this->show_on_map])
+            ->andFilterWhere(['in', 'html', $this->html])
+            ->andFilterWhere(['in', 'query_id', $this->query_id])
+            ->andFilterWhere(['in', 'author_id', $this->author_id])
+            ->andFilterWhere(['in', 'updater_id', $this->updater_id])
+            ->andFilterWhere(['in', 'created_at', $this->created_at])
+            ->andFilterWhere(['in', 'updated_at', $this->updated_at]);
 
         return $dataProvider;
     }

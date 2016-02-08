@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
+
         <?= Html::a('Create Query', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
@@ -25,6 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
 //            'id',
+            [
+                'label'=>'name',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return Html::a($data->name,['apartment/index','ApartmentSearch'=>['query_id'=>$data->id]],['target'=>'_blank']);
+                },
+            ],
             'name',
             'url',
 //            'author.username',
