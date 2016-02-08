@@ -13,22 +13,65 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="apartment-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php  //echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?php // Html::a('Create Apartment', ['create'], ['class' => 'btn btn-success']) ?>
+    <?php
+    Pjax::begin(['id' => 'apartments']);
 
-    </p>
-<?php
-//var_dump($dataProvider->getModels());
-Pjax::begin(['id' => 'apartments']); ?>
+    $opts = [];
+    foreach(\app\models\Query::find()->all() as $q){
+        $opts[] = [
+//            'format' => 'raw',
+            'label' => $q->name,
+            'content' =>
+                Html::a('Upload', ['reload','id'=>$q->id],
+                    [
+                        'class' => 'btn btn-info',
+                        'id' => 'refreshButton',
+                        'onclick'=>"
+                            var self = $(this);
+                            self.attr('disabled', true);
+                            $.ajax({
+                            type : 'GET',
+                            url  : this.href,
+                            success  : function(response) {
+                                if(response > 0){
+                                    $.pjax.reload('#apartments',{timeout:2200});  //Reload GridView
+                                }
+                                self.next().html(response);
+                            }
+                            }).done(function(){self.removeAttr('disabled');});
+                            return false;",
+                    ]
+                )
+                . '<span id="totalUpdate" class="badge"></span>',
+            'url' => ['apartment/index','ApartmentSearch'=>['query_id'=>$q->id]],
+            'active' => \yii\helpers\Url::current() == \yii\helpers\Url::current(['ApartmentSearch'=>['query_id'=>$q->id]])
+        ];
+    }
+    ?>
+    <?php
+
+
+echo \yii\bootstrap\Tabs::widget([
+    'items' => $opts,
+    'options' => ['tag' => 'div'],
+    'itemOptions' => ['tag' => 'div'],
+    'headerOptions' => ['class' => 'my-class'],
+    'clientOptions' => ['collapsible' => true],
+    'encodeLabels' => false,
+]);
+
+
+
+?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'layout'=>"{items}\n{pager}",
         'columns' => [
 //            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+//            'id',
             'image_link:image',
 //            'title',
             [
@@ -42,34 +85,33 @@ Pjax::begin(['id' => 'apartments']); ?>
 //            'description',
             'price',
             'address',
+            'date',
             // 'show_on_map',
             // 'html',
-             'query.name',
+//             'query.name',
             // 'author_id',
             // 'updater_id',
             // 'created_at',
             // 'updated_at',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
 <?php
-
 $this->registerJs(
     '$("document").ready(function(){
-        $("#refreshButton").click("#refreshButton", function(event) {
+    console.log($("#refreshButton"));
+         $("#refreshButton").click(function(event) {
             event.preventDefault();
-            var self = $(this);
-            self.attr("disabled", true);
-            var form = self.parents("form").serialize();
-            $.get(this.href,form, function(data){
-                if(data > 0){
-                    $.pjax.reload("#apartments",{timeout:2200});  //Reload GridView
-                }
-                $("#totalUpdate").html(data);
-                self.removeAttr("disabled");
-            });
+//            var self = $(this);
+//            self.attr("disabled", true);
+//            $.get(this.href, function(data){
+//                if(data > 0){
+//                    $.pjax.reload("#apartments",{timeout:2200});  //Reload GridView
+//                }
+//                $("#totalUpdate").html(data);
+//                self.removeAttr("disabled");
+//            });
         });
     });'
 );

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\assets\AppAsset;
 use app\models\Query;
+use app\models\search\QuerySearch;
 use GuzzleHttp\Client;
 use Yii;
 use app\models\Apartment;
@@ -40,12 +41,18 @@ class ApartmentController extends Controller
     public function actionIndex()
     {
         $searchModel = new ApartmentSearch();
+        $qModel = new QuerySearch();
         $r = Yii::$app->request->queryParams;
-        $dataProvider = $searchModel->search($r);
+        $qid = isset($r['ApartmentSearch']['query_id'])?$r['ApartmentSearch']['query_id']:null;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+//        $qProvider = $qModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+//            'qProvider' => $qProvider,
+            'qModel'=>$qModel
         ]);
     }
 
@@ -54,10 +61,9 @@ class ApartmentController extends Controller
      * Lists all Apartment models.
      * @return mixed
      */
-    public function actionReload()
+    public function actionReload($id)
     {
-        $r = Yii::$app->request->queryParams;
-        $q = $this->findQuery(isset($r['ApartmentSearch']['query_id'])?$r['ApartmentSearch']['query_id']:null);
+        $q = $this->findQuery($id);
         $count = 0;
         $url = $q->url;
         $html = SHD::file_get_html($url);
@@ -66,6 +72,8 @@ class ApartmentController extends Controller
                 $link = $element->find(".link", 0);
                 $price = $element->find(".price", 0);
                 $image = $element->find("img", 0);
+                $breadcrumb = $element->find('.breadcrumb span',0);
+                $date = $element->find('.breadcrumb p',0);
                 if(isset($link->href)) {
                     $ap = Apartment::find()->where(['url' => $link->href])->one();
                     if (!$ap) {
@@ -73,9 +81,10 @@ class ApartmentController extends Controller
                         $apartment = new Apartment();
                         $apartment->url = $link->href;
                         $apartment->title = $link->plaintext;
-//                    $apartment->address = $this->str_to_address($link->plaintext);
+                        $apartment->address = $breadcrumb->plaintext;
                         $apartment->price = $price->plaintext;
                         $apartment->query_id = $q->id;
+                        $apartment->date = $date->plaintext;
                         if($image)
                             $apartment->image_link = $image->src;
                         $apartment->save();

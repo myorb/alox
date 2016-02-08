@@ -57,14 +57,20 @@ class QuerySearch extends Query
         }
 
         // grid filtering conditions
-        $query->andFilterWhere(['like', 'id', $this->id])
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'url', $this->url])
-            ->andFilterWhere(['like', 'author_id', $this->author_id])
-            ->andFilterWhere(['like', 'updater_id', $this->updater_id])
-            ->andFilterWhere(['like', 'created_at', $this->created_at])
-            ->andFilterWhere(['like', 'updated_at', $this->updated_at]);
+        $query->andFilterWhere(['in', 'id', $this->id])
+            ->andFilterWhere(['in', 'name', $this->name])
+            ->andFilterWhere(['in', 'url', $this->url])
+            ->andFilterWhere(['in', 'author_id', $this->author_id])
+            ->andFilterWhere(['in', 'updater_id', $this->updater_id])
+            ->andFilterWhere(['in', 'created_at', $this->created_at])
+            ->andFilterWhere(['in', 'updated_at', $this->updated_at]);
 
         return $dataProvider;
     }
+
+    public function takeAll(){
+        $query = Query::findAll([]);
+        return $dataProvider = new ActiveDataProvider(['query' => $query,]);
+    }
+
 }
