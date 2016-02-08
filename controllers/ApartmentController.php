@@ -61,27 +61,42 @@ class ApartmentController extends Controller
         $count = 0;
         $url = $q->url;
         $html = SHD::file_get_html($url);
-        foreach($html->find('.offer') as $element){
-            $link = $element->find(".link", 0);
-            $price = $element->find(".price", 0);
-            $image = $element->find("img", 0);
-            $ap = Apartment::find()->where(['url' => $link->href])->one();
-            if (!$ap) {
-                $count++;
-                $apartment = new Apartment();
-                $apartment->url = $link->href;
-                $apartment->title = $link->plaintext;
-                $apartment->price = $price->plaintext;
-                $apartment->query_id = $q->id;
-                if($image)
-                    $apartment->image_link = $image->src;
-                $apartment->save();
+        foreach($html->find('#offers_table',0)->find('.offer') as $element) {
+            try {
+                $link = $element->find(".link", 0);
+                $price = $element->find(".price", 0);
+                $image = $element->find("img", 0);
+                if(isset($link->href)) {
+                    $ap = Apartment::find()->where(['url' => $link->href])->one();
+                    if (!$ap) {
+                        $count++;
+                        $apartment = new Apartment();
+                        $apartment->url = $link->href;
+                        $apartment->title = $link->plaintext;
+//                    $apartment->address = $this->str_to_address($link->plaintext);
+                        $apartment->price = $price->plaintext;
+                        $apartment->query_id = $q->id;
+                        if($image)
+                            $apartment->image_link = $image->src;
+                        $apartment->save();
+                    }
+                }
+            }catch (\Exception $e){
+                continue;
             }
-
         }
         echo $count;
     }
 
+    public function tryGetAddresFromString($string){
+
+    }
+    function str_to_address($context) {
+        $patern = '\d{1,10}( \w+){1,10}( ( \w+){1,10})?( \w+){1,10}[,.](( \w+){1,10}(,)? [A-Z]{2}( [0-9]{5})?)?';
+        preg_match_all($patern,$context,$maches);
+        $string = implode(' ', $maches);
+        return $string;
+    }
 
     /**
      * Displays a single Apartment model.

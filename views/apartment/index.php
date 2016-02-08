@@ -26,7 +26,7 @@ Pjax::begin(['id' => 'apartments']); ?>
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+//            ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'image_link:image',
