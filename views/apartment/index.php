@@ -17,18 +17,28 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Create Apartment', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Reload', ['reload'], ['class' => 'btn btn-info']) ?>
+        <?= Html::a('Reload', ['reload'], ['class' => 'btn btn-info', 'id' => 'refreshButton']) ?>
+
     </p>
 <?php
 //var_dump($dataProvider->getModels());
-Pjax::begin(); ?>    <?= GridView::widget([
+Pjax::begin(['id' => 'apartments']); ?>
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'title',
+            'image_link:image',
+//            'title',
+            [
+                'label'=>'title',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return Html::a($data->title,$data->url,['target'=>'_blank']);
+                },
+            ],
 //            'description',
             'price',
             'address',
@@ -44,3 +54,21 @@ Pjax::begin(); ?>    <?= GridView::widget([
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
+<?php
+
+$this->registerJs(
+    '$("document").ready(function(){
+        $("#refreshButton").click("#refreshButton", function(event) {
+            event.preventDefault();
+            var self = $(this);
+            self.attr("disabled", true);
+            $.get(this.href, function(data){
+                if(data > 0){
+                    $.pjax.reload("#apartments",{timeout:2200});  //Reload GridView
+                }
+                self.removeAttr("disabled");
+            });
+        });
+    });'
+);
+?>

@@ -56,53 +56,31 @@ class ApartmentController extends Controller
     {
         $links = [];
         $q = Query::find()->all();
+        $count = 0;
         foreach($q as $v){
             $url = $v->url;
-            echo $v->url;
-            echo '<br>';
-        }
+            $html = SHD::file_get_html($url);
+            $count = 0;
+            foreach($html->find('.offer') as $element){
+                $link = $element->find(".link", 0);
+                $price = $element->find(".price", 0);
+                $image = $element->find("img", 0);
+                $ap = Apartment::find()->where(['url' => $link->href])->one();
+                if (!$ap) {
+                    $count++;
+                    $apartment = new Apartment();
+                    $apartment->url = $link->href;
+                    $apartment->title = $link->plaintext;
+                    $apartment->price = $price->plaintext;
+                    $apartment->query_id = $v->id;
+                    if($image)
+                        $apartment->image_link = $image->src;
+                    $apartment->save();
+                }
 
-//        $client = new Client();
-//        $res = $client->request('GET', $url);
-//        echo $res->getStatusCode();
-
-        $html = SHD::file_get_html($url);
-
-        // Find all images
-//        foreach($html->find('img') as $element)
-//            echo $element->src . '<br>';
-
-// Find all links
-        $parsingQue = [];
-        $count = 0;
-        foreach($html->find('.offer') as $element){
-            $link =  $element->find(".link",0);
-            $price = $element->find(".price",0);
-            $ap = Apartment::find()->where(['url' => $link->href])->one();
-            if(!$ap){
-                $count++;
-                $apartment = new Apartment();
-                $apartment->url = $link->href;
-                $apartment->title = $link->plaintext;
-                $apartment->price = $price->plaintext;
-                $apartment->query_id = $v->id;
-                $apartment->save();
             }
+            echo $count;
         }
-
-        echo $count;
-
-//            var_dump( $element) . '<hr>';
-
-
-// Send an asynchronous request.
-//        $request = new \GuzzleHttp\Psr7\Request('GET', $url);
-//        $promise = $client->sendAsync($request)->then(function ($response) {
-//            echo 'I completed! ' . $response->getStatusCode();
-//        });
-//
-//        $promise->wait();
-
 
 //        $searchModel = new ApartmentSearch();
 //        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
