@@ -3,15 +3,17 @@
  * Created by PhpStorm.
  * User: alex
  * Date: 08.02.16
- * Time: 02:31
+ * Time: 02:47
  */
+
 namespace app\models;
+
 
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use \yii\redis\ActiveRecord;
 
-class Customer extends ActiveRecord
+class Apartment extends ActiveRecord
 {
     public function behaviors()
     {
