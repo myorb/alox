@@ -17,21 +17,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Create Apartment', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Reload', ['reload'], ['class' => 'btn btn-info']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+<?php
+//var_dump($dataProvider->getModels());
+Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+//            'id',
             'title',
-            'description',
+//            'description',
             'price',
             'address',
             // 'show_on_map',
             // 'html',
-            // 'query_id',
+             'query.name',
             // 'author_id',
             // 'updater_id',
             // 'created_at',

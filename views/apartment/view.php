@@ -35,11 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'address',
             'show_on_map',
             'html',
-            'query_id',
+            'query.name',
             'author_id',
             'updater_id',
-            'created_at',
-            'updated_at',
+            'created_at:date',
+            'updated_at:date',
         ],
     ]) ?>
 

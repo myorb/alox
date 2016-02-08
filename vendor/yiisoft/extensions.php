@@ -93,4 +93,13 @@ return array (
       '@yii/imagine' => $vendorDir . '/yiisoft/yii2-imagine',
     ),
   ),
+  'keltstr/yii2-simplehtmldom' => 
+  array (
+    'name' => 'keltstr/yii2-simplehtmldom',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@keltstr/simplehtmldom' => $vendorDir . '/keltstr/yii2-simplehtmldom',
+    ),
+  ),
 );

@@ -17,13 +17,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'url') ?>
 
-    <?= $form->field($model, 'author_id') ?>
-
-    <?= $form->field($model, 'updater_id') ?>
-
-    <?= $form->field($model, 'created_at') ?>
-
-    <?= $form->field($model, 'updated_at') ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

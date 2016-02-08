@@ -2,12 +2,16 @@
 
 namespace app\controllers;
 
+use app\assets\AppAsset;
+use app\models\Query;
+use GuzzleHttp\Client;
 use Yii;
 use app\models\Apartment;
 use app\models\search\ApartmentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use keltstr\simplehtmldom\SimpleHTMLDom as SHD;
 
 /**
  * ApartmentController implements the CRUD actions for Apartment model.
@@ -43,6 +47,60 @@ class ApartmentController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
+    /**
+     * Lists all Apartment models.
+     * @return mixed
+     */
+    public function actionReload()
+    {
+        $links = [];
+        $q = Query::find()->all();
+        foreach($q as $v){
+            $url = $v->url;
+            echo $v->url;
+            echo '<br>';
+        }
+
+//        $client = new Client();
+//        $res = $client->request('GET', $url);
+//        echo $res->getStatusCode();
+
+        $html = SHD::file_get_html($url);
+
+        // Find all images
+//        foreach($html->find('img') as $element)
+//            echo $element->src . '<br>';
+
+// Find all links
+        foreach($html->find('.offer') as $element){
+//            $model = new Apartment();
+//            $e =  $element->find('a');
+            var_dump($element->outertext);
+        }
+
+
+//            var_dump( $element) . '<hr>';
+
+
+// Send an asynchronous request.
+//        $request = new \GuzzleHttp\Psr7\Request('GET', $url);
+//        $promise = $client->sendAsync($request)->then(function ($response) {
+//            echo 'I completed! ' . $response->getStatusCode();
+//        });
+//
+//        $promise->wait();
+
+
+//        $searchModel = new ApartmentSearch();
+//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//
+//        return $this->render('index', [
+//            'searchModel' => $searchModel,
+//            'dataProvider' => $dataProvider,
+//        ]);
+    }
+
 
     /**
      * Displays a single Apartment model.

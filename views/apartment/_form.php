@@ -25,15 +25,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'html') ?>
 
-    <?= $form->field($model, 'query_id') ?>
+    <?= $form->field($model, 'query_id')->dropDownList(
+        \yii\helpers\ArrayHelper::map(\app\models\Query::find()->all(), 'id', 'name')
+    ) ?>
 
-    <?= $form->field($model, 'author_id') ?>
-
-    <?= $form->field($model, 'updater_id') ?>
-
-    <?= $form->field($model, 'created_at') ?>
-
-    <?= $form->field($model, 'updated_at') ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

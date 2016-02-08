@@ -10,6 +10,7 @@ namespace app\models;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\redis\ActiveRecord;
+use yii\web\User;
 
 class Query extends ActiveRecord
 {
@@ -33,6 +34,15 @@ class Query extends ActiveRecord
         ];
     }
 
+    public function rules()
+    {
+        return [
+            [[ 'name', 'url'], 'required'],
+            [[ 'name', 'url'], 'safe'],
+            [[ 'url'], 'url'],
+        ];
+    }
+
     public function attributes()
     {
         return ['id', 'name', 'url', 'author_id','updater_id','created_at','updated_at'];
@@ -47,5 +57,10 @@ class Query extends ActiveRecord
     {
         $e = $this->model_name;
         return $this->hasOne($e::className(), ['id' => 'model_id']);
+    }
+
+    public function getAuthor()
+    {
+        return $this->hasOne(User::className(), ['id' => 'author_id']);
     }
 }

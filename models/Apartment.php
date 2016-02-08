@@ -35,6 +35,24 @@ class Apartment extends ActiveRecord
         ];
     }
 
+    public function rules()
+    {
+        return [
+            [[ 'query_id'], 'required'],
+            [[
+                'id',
+                'title',
+                'description',
+                'price',
+                'address',
+                'show_on_map',
+                'html',
+                'query_id',
+
+            ], 'safe'],
+        ];
+    }
+
 
     public function attributes()
     {

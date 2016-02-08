@@ -18,7 +18,12 @@ return array(
     'yii\\bootstrap\\' => array($vendorDir . '/yiisoft/yii2-bootstrap'),
     'yii\\apidoc\\' => array($vendorDir . '/yiisoft/yii2-apidoc'),
     'yii\\' => array($vendorDir . '/yiisoft/yii2'),
+    'keltstr\\simplehtmldom\\' => array($vendorDir . '/keltstr/yii2-simplehtmldom'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
+    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
+    'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
+    'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
+    'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
 );
