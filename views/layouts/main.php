@@ -27,7 +27,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => 'All from OLX',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -38,8 +38,8 @@ AppAsset::register($this);
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Query', 'url' => ['/query/index']],
-            ['label' => 'Apartment', 'url' => ['/apartment/index']],
-            ['label' => 'Images', 'url' => ['/image/index']],
+            ['label' => 'Results', 'url' => ['/apartment/index']],
+//            ['label' => 'Images', 'url' => ['/image/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
@@ -69,9 +69,11 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; ALOX <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"><?= \Yii::t('yii', 'Powered by {yii}', [
+                'yii' => '<a href="https://github.com/myorb/alox" rel="external">' . \Yii::t('yii','myorb') . '</a>'
+            ]); ?></p>
     </div>
 </footer>
 
