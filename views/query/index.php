@@ -12,8 +12,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="query-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <h1><?php // Html::encode($this->title) ?></h1>
+    <?php
+
+     // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
 
@@ -21,24 +23,39 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        'filterModel' => false,
+//        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
 //            'id',
             [
-                'label'=>'name',
+                'label'=>'Name',
                 'format' => 'raw',
                 'value'=>function ($data) {
                     return Html::a($data->name,['apartment/index','ApartmentSearch'=>['query_id'=>$data->id]],['target'=>'_blank']);
                 },
             ],
-            'name',
-            'url',
+//            'name',
+//            'url:url',
+            [
+                'label'=>'Url',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return Html::a($data->url,$data->url,['target'=>'_blank']);
+                },
+            ],
+            [
+                'label'=>'Total',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return count($data->apartments);
+                },
+            ],
 //            'author.username',
 //            'author_id',
 //            'updater_id',
-            // 'created_at',
+             'created_at:date',
             // 'updated_at',
 
             ['class' => 'yii\grid\ActionColumn'],

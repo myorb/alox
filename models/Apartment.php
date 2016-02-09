@@ -51,6 +51,7 @@ class Apartment extends ActiveRecord
                 'date',
                 'query_id',
                 'image_link',
+                'html',
 
             ], 'safe'],
         ];
@@ -71,6 +72,7 @@ class Apartment extends ActiveRecord
             'query_id',
             'image_link',
             'date',
+            'html',
             'author_id',
             'updater_id',
             'created_at',

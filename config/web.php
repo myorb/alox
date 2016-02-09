@@ -40,8 +40,8 @@ $config = [
         'db' => require(__DIR__ . '/db.php'),
         'redis' => [
             'class' => 'yii\redis\Connection',
-            'hostname' => 'localhost',
-            'port' => 6379,
+            'hostname' => '192.168.99.100',
+            'port' => 32769,
             'database' => 0,
         ],
 
