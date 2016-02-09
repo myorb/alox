@@ -72,27 +72,30 @@ class ApartmentController extends Controller
     public function actionReload($id)
     {
         $q = $this->findQuery($id);
-        $count = 0;
-        $url = $q->url;
+        echo $this->parseHtml($q->url, $q->id);
+    }
+
+    function parseHtml($url, $query_id){
         $html = SHD::file_get_html($url);
+        $count = 0;
         foreach($html->find('#offers_table',0)->find('.offer') as $element) {
             try {
-                $link = $element->find(".link", 0);
-                $price = $element->find(".price", 0);
-                $image = $element->find("img", 0);
+                $link       = $element->find(".link", 0);
+                $price      = $element->find(".price", 0);
+                $image      = $element->find("img", 0);
                 $breadcrumb = $element->find('.breadcrumb span',0);
-//                $date = $element->find('.breadcrumb p',0);
+                $date       = $element->find('td[valign=bottom] p.x-normal',0);
                 if(isset($link->href)) {
                     $ap = Apartment::find()->where(['url' => $link->href])->one();
                     if (!$ap) {
                         $count++;
                         $apartment = new Apartment();
-                        $apartment->url = $link->href;
-                        $apartment->title = $link->plaintext;
-                        $apartment->address = $breadcrumb->plaintext;
-                        $apartment->price = $price->plaintext;
-                        $apartment->query_id = $q->id;
-//                        $apartment->date = $date->plaintext;
+                        $apartment->url         = $link->href;
+                        $apartment->title       = $link->plaintext;
+                        $apartment->address     = $breadcrumb->plaintext;
+                        $apartment->price       = $price->plaintext;
+                        $apartment->query_id    = $query_id;
+                        $apartment->date        = $date->plaintext;
                         if($image)
                             $apartment->image_link = $image->src;
                         $apartment->save();
@@ -102,7 +105,7 @@ class ApartmentController extends Controller
                 continue;
             }
         }
-        echo $count;
+        return $count;
     }
 
     function str_to_address($context) {
@@ -223,7 +226,9 @@ class ApartmentController extends Controller
         $model = $this->findModel($id);
 
         if($model->html){
-
+            return $this->renderPartial('details', [
+                'model' => $model,
+            ]);
         }else{
             $html = SHD::file_get_html($model->url);
             $model->html = $html->find('.offercontentinner',0);
@@ -236,11 +241,11 @@ class ApartmentController extends Controller
 //            $model->sows = $html->find('.offercontentinner',0);
 //            $model->sows = $html->find('.offercontentinner',0);
             $model->save();
-
+            return $this->renderPartial('details', [
+                'model' => $model,
+            ]);
         }
 
-        return $this->renderPartial('details', [
-            'model' => $model,
-        ]);
+
     }
 }

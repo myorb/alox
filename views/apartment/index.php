@@ -95,7 +95,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'label'=>'title',
                     'format' => 'raw',
                     'value'=>function ($data) {
-                        return Html::a($data->title,$data->url,['target'=>'_blank']).' ('.$data->address.')';
+                        return Html::a($data->title,$data->url,['target'=>'_blank']).'<br> '.$data->address;
                     },
                 ],
                 [
@@ -112,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'description',
                 'price',
 //                'address',
-//                'date',
+                'date',
                 // 'show_on_map',
                 // 'html',
 //             'query.name',
@@ -120,7 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 // 'updater_id',
                 // 'created_at',
                 // 'updated_at',
-                ['class' => 'yii\grid\ActionColumn'],
+//                ['class' => 'yii\grid\ActionColumn'],
             ],
         ]); ?>
         <?php Pjax::end(); ?></div>
