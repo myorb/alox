@@ -10,7 +10,7 @@ namespace app\models;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\redis\ActiveRecord;
-use yii\web\User;
+use app\models\User;
 
 class Query extends ActiveRecord
 {

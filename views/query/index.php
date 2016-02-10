@@ -18,6 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
      // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
+        <?php
+//        $e = \Yii::$app->session->get('user.hash');
+//        var_dump($e);
+        ?>
 
         <?= Html::a('Create Query', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -53,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
 //            'author.username',
-//            'author_id',
+            'author_id',
 //            'updater_id',
              'created_at:date',
             // 'updated_at',

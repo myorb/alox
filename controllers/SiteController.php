@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\SignupForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -28,7 +29,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['get'],
                 ],
             ],
         ];
@@ -67,6 +68,34 @@ class SiteController extends Controller
         ]);
     }
 
+
+    /**
+     * @return string|Response
+     */
+    public function actionSignup()
+    {
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post())) {
+            $user = $model->signup();
+            if ($user) {
+                if ($model->shouldBeActivated()) {
+                    Yii::$app->getSession()->setFlash('alert', [
+                        'body' => Yii::t(
+                            'yii',
+                            'Your account has been successfully created. Check your email for further instructions.'
+                        ),
+                        'options' => ['class'=>'alert-success']
+                    ]);
+                } else {
+                    Yii::$app->getUser()->login($user);
+                }
+                return $this->goHome();
+            }
+        }
+        return $this->render('signup', [
+            'model' => $model
+        ]);
+    }
     public function actionLogout()
     {
         Yii::$app->user->logout();
