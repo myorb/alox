@@ -51,7 +51,6 @@ class ApartmentController extends Controller
     public function actionIndex()
     {
         $searchModel = new ApartmentSearch();
-        $qModel = new QuerySearch();
         $r = Yii::$app->request->queryParams;
 
 //        $r['ApartmentSearch']['query_id'] = isset($r['ApartmentSearch']['query_id'])?$r['ApartmentSearch']['query_id']:null;
@@ -64,13 +63,10 @@ class ApartmentController extends Controller
         }
         $dataProvider = $searchModel->search($r);
 
-//        $qProvider = $qModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-//            'qProvider' => $qProvider,
-            'qModel'=>$qModel
+            'queries'=>QuerySearch::takeAll(),
         ]);
     }
 

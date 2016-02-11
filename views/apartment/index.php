@@ -16,9 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php  //echo $this->render('_search', ['model' => $searchModel]); ?>
 
         <?php
-
         $opts = [];
-        foreach(\app\models\Query::find()->all() as $q){
+        foreach($queries as $q){
             $opts[] = [
 //            'format' => 'raw',
                 'label' => $q->name . '<span id="totalUpdate" class="badge"></span>',

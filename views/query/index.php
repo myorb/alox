@@ -56,10 +56,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     return count($data->apartments);
                 },
             ],
-//            'author.username',
-            'author_id',
+            'author.username',
+//            'author_id',
 //            'updater_id',
              'created_at:date',
+
+//            [
+//                'label'=>'Auto Update',
+//                'format' => 'raw',
+//                'value'=>function ($data) {
+//                    return count($data->apartments);
+//                },
+//            ],
             // 'updated_at',
 
             ['class' => 'yii\grid\ActionColumn'],

@@ -27,7 +27,12 @@
         "yiisoft/yii2-jui": "~2.0.0",
         "yiisoft/yii2-imagine": "~2.0.0",
         "guzzlehttp/guzzle": "@dev",
-        "keltstr/yii2-simplehtmldom": "dev-master"
+        "keltstr/yii2-simplehtmldom": "dev-master",
+        "kartik-v/yii2-widgets": "*",
+        "kartik-v/yii2-krajee-base": "dev-master",
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-detail-view": "@dev"
+
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

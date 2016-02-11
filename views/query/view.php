@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use kartik\widgets\SwitchInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Query */
@@ -24,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
         <?= Html::a('Create Query', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Upload Results ->', ['apartment/index','ApartmentSearch'=>['query_id'=>$model->id]], ['class' => 'btn btn-info']) ?>
     </p>
 
     <?= DetailView::widget([
@@ -31,12 +33,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
-            'url',
-            'author_id',
-            'updater_id',
-            'created_at',
-            'updated_at',
+            'url:url',
+            'author.username',
+//            'updater_id',
+            'created_at:date',
+            'updated_at:date',
         ],
-    ]) ?>
+    ]);
+
+    ?>
 
 </div>

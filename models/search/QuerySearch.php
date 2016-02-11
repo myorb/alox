@@ -70,9 +70,9 @@ class QuerySearch extends Query
         return $dataProvider;
     }
 
-    public function takeAll(){
-        $query = Query::findAll([]);
-        return $dataProvider = new ActiveDataProvider(['query' => $query,]);
+    public static function takeAll(){
+        $query = Query::find();
+        return $query->where(['author_id' => Yii::$app->user->isGuest ? 0 : Yii::$app->user->id])->all();
     }
 
 }
