@@ -1,6 +1,5 @@
-/vendor
-vendor
 .idea
-/.idea
 config
-/config
+vendor
+assets/*
+
