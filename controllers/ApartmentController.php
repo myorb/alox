@@ -218,7 +218,8 @@ class ApartmentController extends Controller
         foreach($q->apartments as $apartments){
             $this->findModel($apartments->id)->delete();
         }
-        return $this->goBack();
+//        return $this->redirect(['index',Yii::$app->request->queryParams]);
+       return 'ok';
     }
 
     /**
@@ -230,7 +231,7 @@ class ApartmentController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        return $this->redirect(['index']);
+        return $this->redirect(['index',Yii::$app->request->queryParams]);
     }
 
     /**

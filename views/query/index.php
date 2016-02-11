@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\QuerySearch */
@@ -11,7 +11,6 @@ $this->title = 'Queries';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="query-index">
-
     <h1><?php // Html::encode($this->title) ?></h1>
     <?php
 
@@ -25,30 +24,36 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= Html::a('Create Query', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+    <div class="row">
+<?php Pjax::begin(); ?>
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => false,
+        'responsive'=>true,
+        'layout'=>"{items}\n{pager}",
 //        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
 //            'id',
             [
+                'label'=>'Olx Link',
+                'format' => 'raw',
+                'width' => '60px',
+                'value'=>function ($data) {
+                    return Html::a('<span class="glyphicon glyphicon-link">olx</span>',$data->url,['target'=>'_blank','title'=>'olx']);
+                },
+            ],
+            [
                 'label'=>'Name',
                 'format' => 'raw',
                 'value'=>function ($data) {
-                    return Html::a($data->name,['apartment/index','ApartmentSearch'=>['query_id'=>$data->id]],['target'=>'_blank']);
+                    return Html::a($data->name,['apartment/index','ApartmentSearch'=>['query_id'=>$data->id]],['target'=>'_blank','title'=>"View"]);
                 },
             ],
 //            'name',
 //            'url:url',
-            [
-                'label'=>'Url',
-                'format' => 'raw',
-                'value'=>function ($data) {
-                    return Html::a($data->url,$data->url,['target'=>'_blank']);
-                },
-            ],
+
             [
                 'label'=>'Total',
                 'format' => 'raw',
@@ -56,10 +61,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     return count($data->apartments);
                 },
             ],
-            'author.username',
+//            [
+//                'label'=>'AVR',
+//                'format' => 'raw',
+//                'value'=>function ($data) {
+//                    return count($data->avarageProse);
+//                },
+//            ],
+            [
+                'label'=>'New',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return count($data->apartments);
+                },
+            ],
+//            'author.username',
 //            'author_id',
 //            'updater_id',
-             'created_at:date',
+//             'created_at:date',
 
 //            [
 //                'label'=>'Auto Update',
@@ -73,4 +92,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>
+    </div>
+</div>

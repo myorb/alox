@@ -75,4 +75,7 @@ class QuerySearch extends Query
         return $query->where(['author_id' => Yii::$app->user->isGuest ? 0 : Yii::$app->user->id])->all();
     }
 
+    var $avaragePrice;
+
+
 }

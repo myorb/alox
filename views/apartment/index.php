@@ -70,7 +70,9 @@ $this->registerJs("$(function() {
                             type : 'GET',
                             url  : this.href,
                             success  : function(response) {
-                                $.pjax.reload('#apartments',{timeout:2200});  //Reload GridView
+                                response == 'ok'?
+                                $.pjax.reload('#apartments',{timeout:2200}):
+                                alert(response);
                             }
                             }).done(function(){self.removeAttr('disabled');});
                             return false;",
@@ -138,12 +140,12 @@ $this->registerJs("$(function() {
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'header'=>'Action',
-                    'template' => '{view}{like}{remove}',
+                    'template' => '{modal}{like}{remove}{view}',
                     'headerOptions' => ['width' => '20px',],
                     'contentOptions' => ['class' => 'padding-left-5px'],
                     'buttons' => [
-                        'view' => function ($url, $model, $key) {
-                            return Html::a('<span class="glyphicon glyphicon-eye-open text-success"></span>',['details','id'=>$model->id], [
+                        'modal' => function ($url, $model, $key) {
+                            return Html::a('<span class="glyphicon glyphicon-modal-window text-success"></span>',['details','id'=>$model->id], [
                                 'onclick'=>"$('#modal').modal('show').find('.modal-body').load($(this).attr('href'));return false",
                                 'data-pjax' => '0',
                                 'class'=>'btn btn-lg'
@@ -169,6 +171,15 @@ $this->registerJs("$(function() {
                                 'class'=>'btn btn-lg '
                             ]);
                         },
+                        'view' => function ($url, $model, $key) {
+                            return Html::a('<span class="glyphicon glyphicon-eye-open"></span>',['view','id'=>$model->id], [
+                                'title' => Yii::t('yii', 'View'),
+                                'aria-label' => Yii::t('yii', 'View'),
+                                'data-pjax' => '0',
+                                'class'=>'btn btn-lg'
+                            ]);
+                        },
+
                     ],
                 ],
 //                [
