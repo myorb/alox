@@ -18,7 +18,7 @@ class ApartmentSearch extends Apartment
     public function rules()
     {
         return [
-            [['id', 'title', 'description', 'price', 'address', 'show_on_map', 'html', 'query_id', 'author_id', 'updater_id', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'title', 'description', 'price', 'address', 'show_on_map', 'html', 'query_id', 'author_id', 'updater_id', 'created_at', 'updated_at','like'], 'safe'],
         ];
     }
 
@@ -51,6 +51,9 @@ class ApartmentSearch extends Apartment
                     'date' => SORT_DESC,
                 ]
             ],
+            'pagination' => [
+                'pageSize' => 300,
+            ],
         ]);
         $this->author_id = Yii::$app->user->isGuest ? 0 :\Yii::$app->user->id;
 
@@ -74,6 +77,7 @@ class ApartmentSearch extends Apartment
             ->andFilterWhere(['in', 'author_id', $this->author_id])
             ->andFilterWhere(['in', 'updater_id', $this->updater_id])
             ->andFilterWhere(['in', 'created_at', $this->created_at])
+            ->andFilterWhere(['in', 'like', $this->like])
             ->andFilterWhere(['in', 'updated_at', $this->updated_at]);
 
         return $dataProvider;

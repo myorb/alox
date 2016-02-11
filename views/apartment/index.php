@@ -83,7 +83,6 @@ $this->registerJs("$(function() {
         ?>
         <?php
 
-
         echo \yii\bootstrap\Tabs::widget([
             'items' => $opts,
             'options' => ['tag' => 'div'],
@@ -95,7 +94,6 @@ $this->registerJs("$(function() {
 
         Pjax::begin(['id' => 'apartments']);
 
-
         ?>
 
         <?= GridView::widget([
@@ -104,9 +102,18 @@ $this->registerJs("$(function() {
             'layout'=>"{items}\n{pager}",
             'filterModel' => false,
             'columns' => [
-//            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn'],
             'id',
-                'image_link:image',
+//                'image_link:image',
+                [
+                    'label'=>'Image',
+//                    'headerOptions' => ['width' => '20px',],
+//                    'width'=>'36px',
+                    'format' => 'raw',
+                    'value'=>function ($data) {
+                        return Html::img($data->image_link,['width'=>'206px']);
+                    },
+                ],
 //            'title',
                 [
                     'label'=>'Title',
@@ -130,16 +137,36 @@ $this->registerJs("$(function() {
 //                ['class' => 'yii\grid\ActionColumn'],
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    'header'=>'View',
-                    'template' => '{view}',
-//                    'headerOptions' => ['width' => '20%',],
-//                    'contentOptions' => ['class' => 'padding-left-5px'],
+                    'header'=>'Action',
+                    'template' => '{view}{like}{remove}',
+                    'headerOptions' => ['width' => '20px',],
+                    'contentOptions' => ['class' => 'padding-left-5px'],
                     'buttons' => [
                         'view' => function ($url, $model, $key) {
-                            return Html::a('<span class="glyphicon glyphicon-eye-open"></span>',['details','id'=>$model->id], [
+                            return Html::a('<span class="glyphicon glyphicon-eye-open text-success"></span>',['details','id'=>$model->id], [
                                 'onclick'=>"$('#modal').modal('show').find('.modal-body').load($(this).attr('href'));return false",
                                 'data-pjax' => '0',
                                 'class'=>'btn btn-lg'
+                            ]);
+                        },
+                        'like' => function ($url, $model, $key) {
+                            $html = $model->like?
+                                '<span class="glyphicon glyphicon-thumbs-down"></span>':
+                                '<span class="glyphicon glyphicon-thumbs-up"></span>';
+                            return Html::a( $html,['like','id'=>$model->id], [
+                                'onclick'=>"$.get($(this).attr('href')).done(function(data){if(data=='ok')$(this).toggleClass('glyphicon-thumbs-up', 'glyphicon-thumbs-down')});$.pjax.reload('#apartments');return false",
+                                'data-pjax' => '0',
+                                'class'=>'btn btn-lg '
+                            ]);
+                        },
+                        'remove' => function ($url, $model, $key) {
+                            return Html::a('<span class="glyphicon glyphicon-trash "></span>',['delete','id'=>$model->id], [
+                                'title' => Yii::t('yii', 'Delete'),
+                                'aria-label' => Yii::t('yii', 'Delete'),
+                                'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                                'data-method' => 'post',
+                                'data-pjax' => '0',
+                                'class'=>'btn btn-lg '
                             ]);
                         },
                     ],

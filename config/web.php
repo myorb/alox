@@ -38,12 +38,7 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-        'redis' => [
-            'class' => 'yii\redis\Connection',
-            'hostname' => '192.168.99.100',
-            'port' => 32770,
-            'database' => 0,
-        ],
+        'redis' => require(__DIR__ . '/redis.php'),
 
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -51,6 +46,12 @@ $config = [
             'rules' => [
             ],
         ],
+
+    ],
+    'modules' => [
+        'gridview' =>  [
+            'class' => '\kartik\grid\Module'
+        ]
     ],
     'params' => $params,
 ];

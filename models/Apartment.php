@@ -52,6 +52,7 @@ class Apartment extends ActiveRecord
                 'query_id',
                 'image_link',
                 'html',
+                'like'
 
             ], 'safe'],
         ];
@@ -76,7 +77,8 @@ class Apartment extends ActiveRecord
             'author_id',
             'updater_id',
             'created_at',
-            'updated_at'
+            'updated_at',
+            'like'
         ];
     }
 
@@ -88,5 +90,8 @@ class Apartment extends ActiveRecord
     public function getImage()
     {
         return $this->hasOne(Image::className(), ['id' => 'model_id']);
+    }
+    public function setlike(){
+        return $this->like = $this->like == 1?0:1;
     }
 }

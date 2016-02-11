@@ -70,6 +70,30 @@ class ApartmentController extends Controller
         ]);
     }
 
+    public function actionMy()
+    {
+        $searchModel = new ApartmentSearch();
+        $r = Yii::$app->request->queryParams;
+        $r['ApartmentSearch']['like'] = 1;
+        $dataProvider = $searchModel->search($r);
+//        var_dump($dataProvider-)
+//
+        return $this->render('my', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionLike($id){
+        $model = $this->findModel($id);
+        if($model){
+            $model->setlike();
+            $model->save();
+            return 'ok';
+        }
+        return 'error';
+    }
+
 
     /**
      * Lists all Apartment models.
@@ -194,7 +218,7 @@ class ApartmentController extends Controller
         foreach($q->apartments as $apartments){
             $this->findModel($apartments->id)->delete();
         }
-        return $this->redirect(['index']);
+        return $this->goBack();
     }
 
     /**
