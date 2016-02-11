@@ -11,7 +11,7 @@ $this->title = 'My Yii Application';
 
         <p class="lead">Это маленький адон к olx. Он помогает искать обявления на <b>olx</b></p>
 
-        <p><a class="btn btn-lg btn-success" href="/site/login">Login</a></p>
+        <p><a class="btn btn-lg btn-success" href="/query">Add You Query</a></p>
     </div>
 
 

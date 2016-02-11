@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\ApartmentSearch */
@@ -9,6 +9,24 @@ use yii\widgets\Pjax;
 
 $this->title = 'Apartments';
 $this->params['breadcrumbs'][] = $this->title;
+?>
+
+<?php
+
+$this->registerJs("$(function() {
+   $('.popupModal').click(function(e) {
+     e.preventDefault();
+     $('#modal').modal('show').find('.modal-content')
+     .load($(this).attr('href'));
+   });
+
+
+});
+
+
+");
+
+
 ?>
     <div class="apartment-index">
 
@@ -87,25 +105,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'filterModel' => false,
             'columns' => [
 //            ['class' => 'yii\grid\SerialColumn'],
-//            'id',
+            'id',
                 'image_link:image',
 //            'title',
                 [
-                    'label'=>'title',
+                    'label'=>'Title',
                     'format' => 'raw',
                     'value'=>function ($data) {
                         return Html::a($data->title,$data->url,['target'=>'_blank']).'<br> '.$data->address;
                     },
-                ],
-                [
-                    'header'=>'Fast look',
-                    'value'=> function($data)
-                    {
-                        return  Html::a(Yii::t('app', ' {modelClass}', [
-                            'modelClass' => 'details',
-                        ]), ['details','id'=>$data->id], ['class' => 'btn btn-success popupModal']);
-                    },
-                    'format' => 'raw'
                 ],
 //            'query_id',
 //            'description',
@@ -120,24 +128,48 @@ $this->params['breadcrumbs'][] = $this->title;
                 // 'created_at',
                 // 'updated_at',
 //                ['class' => 'yii\grid\ActionColumn'],
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'header'=>'View',
+                    'template' => '{view}',
+//                    'headerOptions' => ['width' => '20%',],
+//                    'contentOptions' => ['class' => 'padding-left-5px'],
+                    'buttons' => [
+                        'view' => function ($url, $model, $key) {
+                            return Html::a('<span class="glyphicon glyphicon-eye-open"></span>',['details','id'=>$model->id], [
+                                'onclick'=>"$('#modal').modal('show').find('.modal-body').load($(this).attr('href'));return false",
+                                'data-pjax' => '0',
+                                'class'=>'btn btn-lg'
+                            ]);
+                        },
+                    ],
+                ],
+//                [
+//                    'class' => 'yii\grid\ActionColumn',
+//                    'template' => '{like}',
+//                    'header'=>'Like',
+////                    'headerOptions' => ['width' => '20%',],
+////                    'contentOptions' => ['class' => 'padding-left-5px'],
+//                    'buttons' => [
+//                        'like' => function ($url, $model, $key) {
+//                            return Html::a('<span class="glyphicon glyphicon-star"></span>',['details','id'=>$model->id], [
+//                                'onclick'=>"$('#modal').modal('show').find('.modal-body').load($(this).attr('href'));return false",
+//                                'data-pjax' => '0',
+//                                'class'=>'btn btn-lg'
+//                            ]);
+//                        },
+//                    ],
+//                ],
             ],
         ]); ?>
         <?php Pjax::end(); ?></div>
 
-
 <?php
-
-$this->registerJs("$(function() {
-   $('.popupModal').click(function(e) {
-     e.preventDefault();
-     $('#modal').modal('show').find('.modal-content')
-     .load($(this).attr('href'));
-   });
-});");
-
-?>
-<?php
-yii\bootstrap\Modal::begin(['id' =>'modal', 'size' => \yii\bootstrap\Modal::SIZE_LARGE,]);
+yii\bootstrap\Modal::begin([
+    'id' =>'modal',
+    'size' => \yii\bootstrap\Modal::SIZE_LARGE,
+    'header' => '<h4 class="modal-title">View</h4>',
+    'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>',
+]);
 yii\bootstrap\Modal::end();
 ?>
-

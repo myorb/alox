@@ -105,6 +105,18 @@ class ApartmentController extends Controller
                         if($image)
                             $apartment->image_link = $image->src;
                         $apartment->save();
+                    }elseif(!Apartment::find()->where(['url' => $link->href])->andWhere(['query_id'=>$query_id])->one()){
+                        $count++;
+                        $apartment = new Apartment();
+                        $apartment->url         = $ap->url;
+                        $apartment->title       = $ap->title;
+                        $apartment->address     = $ap->address;
+                        $apartment->price       = $ap->price;
+                        $apartment->query_id    = $query_id;
+                        $apartment->date        = $ap->date;
+                        if($image)
+                            $apartment->image_link = $ap->image_link;
+                        $apartment->save();
                     }
                 }
             }catch (\Exception $e){
