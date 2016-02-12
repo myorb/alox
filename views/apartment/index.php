@@ -34,7 +34,13 @@ $this->registerJs("$(function() {
         <?php  //echo $this->render('_search', ['model' => $searchModel]); ?>
 
         <?php
-        $opts = [];
+        $opts[] = [
+            'label' => ' All<span id="totalUpdate" class="badge"></span>',
+            'content' => '',
+            'url' => ['index'],
+            'active' => \yii\helpers\Url::current() == \yii\helpers\Url::current(['index'])
+        ];
+
         foreach($queries as $q){
             $opts[] = [
 //            'format' => 'raw',
@@ -105,7 +111,7 @@ $this->registerJs("$(function() {
             'filterModel' => false,
             'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'id',
+//            'id',
 //                'image_link:image',
                 [
                     'label'=>'Image',
@@ -124,9 +130,16 @@ $this->registerJs("$(function() {
                         return Html::a($data->title,$data->url,['target'=>'_blank']).'<br> '.$data->address;
                     },
                 ],
+//                [
+//                    'label'=>'Price',
+//                    'format' => 'raw',
+//                    'value'=>function ($data) {
+//                        return Html::a($data->title,$data->url,['target'=>'_blank']).'<br> '.$data->address;
+//                    },
+//                ],
 //            'query_id',
 //            'description',
-                'price',
+                'fullprice',
 //                'address',
                 'date',
                 // 'show_on_map',

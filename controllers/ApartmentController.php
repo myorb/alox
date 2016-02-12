@@ -53,14 +53,6 @@ class ApartmentController extends Controller
         $searchModel = new ApartmentSearch();
         $r = Yii::$app->request->queryParams;
 
-//        $r['ApartmentSearch']['query_id'] = isset($r['ApartmentSearch']['query_id'])?$r['ApartmentSearch']['query_id']:null;
-        if(isset($r['ApartmentSearch']['query_id'])){
-
-        }else{
-            $q = Query::find()->one();
-            $r['ApartmentSearch']['query_id'] = $q->id;
-
-        }
         $dataProvider = $searchModel->search($r);
 
         return $this->render('index', [
@@ -121,25 +113,19 @@ class ApartmentController extends Controller
                         $count++;
                         $apartment = new Apartment();
                         $apartment->url         = $link->href;
-                        $apartment->title       = $link->plaintext;
-                        $apartment->address     = $breadcrumb->plaintext;
-                        $apartment->price       = $price->plaintext;
+                        $apartment->title       = trim($link->plaintext);
+                        $apartment->address     = trim($breadcrumb->plaintext);
+                        $apartment->price       = filter_var($price->plaintext, FILTER_SANITIZE_NUMBER_INT);
+                        $apartment->currency    = preg_replace('/\d+/u', '', $price->plaintext);
                         $apartment->query_id    = $query_id;
-                        $apartment->date        = $date->plaintext;
+                        $apartment->date        = trim($date->plaintext);
                         if($image)
                             $apartment->image_link = $image->src;
                         $apartment->save();
                     }elseif(!Apartment::find()->where(['url' => $link->href])->andWhere(['query_id'=>$query_id])->one()){
                         $count++;
-                        $apartment = new Apartment();
-                        $apartment->url         = $ap->url;
-                        $apartment->title       = $ap->title;
-                        $apartment->address     = $ap->address;
-                        $apartment->price       = $ap->price;
-                        $apartment->query_id    = $query_id;
-                        $apartment->date        = $ap->date;
-                        if($image)
-                            $apartment->image_link = $ap->image_link;
+                        $apartment = clone $ap;
+                        $apartment->query_id = $query_id;
                         $apartment->save();
                     }
                 }

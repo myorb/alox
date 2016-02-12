@@ -52,7 +52,8 @@ class Apartment extends ActiveRecord
                 'query_id',
                 'image_link',
                 'html',
-                'like'
+                'like',
+                'currency'
 
             ], 'safe'],
         ];
@@ -78,7 +79,8 @@ class Apartment extends ActiveRecord
             'updater_id',
             'created_at',
             'updated_at',
-            'like'
+            'like',
+            'currency'
         ];
     }
 
@@ -93,5 +95,9 @@ class Apartment extends ActiveRecord
     }
     public function setlike(){
         return $this->like = $this->like == 1?0:1;
+    }
+    public function getFullPrice(){
+//        return $this->price;
+        return number_format($this->price).$this->currency;
     }
 }
