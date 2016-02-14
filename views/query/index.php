@@ -68,13 +68,13 @@ $this->params['breadcrumbs'][] = $this->title;
 //                    return count($data->avarageProse);
 //                },
 //            ],
-            [
-                'label'=>'New',
-                'format' => 'raw',
-                'value'=>function ($data) {
-                    return count($data->apartments);
-                },
-            ],
+//            [
+//                'label'=>'New',
+//                'format' => 'raw',
+//                'value'=>function ($data) {
+//                    return count($data->apartments);
+//                },
+//            ],
 //            'author.username',
 //            'author_id',
 //            'updater_id',

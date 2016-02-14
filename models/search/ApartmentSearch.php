@@ -52,7 +52,7 @@ class ApartmentSearch extends Apartment
                 ]
             ],
             'pagination' => [
-                'pageSize' => 50,
+                'pageSize' => 150,
             ],
         ]);
         $this->author_id = Yii::$app->user->isGuest ? 0 :\Yii::$app->user->id;

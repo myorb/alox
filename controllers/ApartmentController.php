@@ -52,6 +52,7 @@ class ApartmentController extends Controller
     {
         $searchModel = new ApartmentSearch();
         $r = Yii::$app->request->queryParams;
+        $r['view'] = in_array(isset($r['view']),['table','grid'])?$r['view']:'table';
 
         $dataProvider = $searchModel->search($r);
 
@@ -59,6 +60,7 @@ class ApartmentController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'queries'=>QuerySearch::takeAll(),
+            'view'=>$r['view'],
         ]);
     }
 
@@ -99,6 +101,8 @@ class ApartmentController extends Controller
 
     function parseHtml($url, $query_id){
         $html = SHD::file_get_html($url);
+        date_default_timezone_set('Europe/Kiev');//or change to whatever timezone you want
+
         $count = 0;
         foreach($html->find('#offers_table',0)->find('.offer') as $element) {
             try {
@@ -118,7 +122,7 @@ class ApartmentController extends Controller
                         $apartment->price       = filter_var($price->plaintext, FILTER_SANITIZE_NUMBER_INT);
                         $apartment->currency    = preg_replace('/\d+/u', '', $price->plaintext);
                         $apartment->query_id    = $query_id;
-                        $apartment->date        = trim($date->plaintext);
+                        $apartment->date        = $this->parseDate(trim($date->plaintext));
                         if($image)
                             $apartment->image_link = $image->src;
                         $apartment->save();
@@ -136,11 +140,27 @@ class ApartmentController extends Controller
         return $count;
     }
 
-    function str_to_address($context) {
+    public function str_to_address($context) {
         $patern = '\d{1,10}( \w+){1,10}( ( \w+){1,10})?( \w+){1,10}[,.](( \w+){1,10}(,)? [A-Z]{2}( [0-9]{5})?)?';
         preg_match_all($patern,$context,$maches);
         $string = implode(' ', $maches);
         return $string;
+    }
+
+    public function parseDate($date)
+    {
+        $ru_month = array( 'янва', 'февр', 'март.', 'апре', 'май', 'июнь', 'июль', 'авгу', 'сент', 'октя', 'нояб', 'дека', 'Сегодня','Вчера');
+        $en_month = array( 'January', 'February', 'March', 'May', 'June', 'July', 'August', 'September', 'Oktober', 'November', 'December','today','yesterday' );
+        $date_array = date_parse( str_replace( $ru_month, $en_month, $date ) ) ;
+
+        return date('U', mktime(
+            $date_array['hour']?$date_array['hour']:date('H'),
+            $date_array['minute']?$date_array['minute']:date('s'),
+            $date_array['second']?$date_array['second']:date('i'),
+            $date_array['month']?$date_array['month']:date('m'),
+            $date_array['day']?$date_array['day']:date('d'),
+            $date_array['year']?$date_array['year']:date('Y')
+        ));
     }
 
     /**

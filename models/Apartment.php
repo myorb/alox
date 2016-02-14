@@ -98,6 +98,6 @@ class Apartment extends ActiveRecord
     }
     public function getFullPrice(){
 //        return $this->price;
-        return number_format($this->price).$this->currency;
+        return number_format(filter_var($this->price, FILTER_SANITIZE_NUMBER_INT)).$this->currency;
     }
 }
