@@ -12,7 +12,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\redis\ActiveRecord;
 use app\models\User;
 
-class Query extends ActiveRecord
+class Like extends ActiveRecord
 {
     public function behaviors()
     {
@@ -23,8 +23,6 @@ class Query extends ActiveRecord
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ],
-                // if you're using datetime instead of UNIX timestamp:
-                // 'value' => new Expression('NOW()'),
             ],
             [
                 'class' => BlameableBehavior::className(),
@@ -37,20 +35,21 @@ class Query extends ActiveRecord
     public function rules()
     {
         return [
-            [[ 'name', 'url'], 'required'],
-            [[ 'name', 'url'], 'safe'],
+            [[ 'apartment_id', 'url'], 'required'],
+            [[ 'apartment_id', 'url'], 'safe'],
             [[ 'url'], 'url'],
         ];
     }
 
     public function attributes()
     {
-        return ['id', 'name', 'url', 'author_id','updater_id','created_at','updated_at'];
+        return ['id', 'apartment_id', 'url', 'author_id','updater_id','created_at','updated_at'];
     }
 
-    public function getApartments()
+
+    public function getApartment()
     {
-        return $this->hasMany(Apartment::className(), ['query_id' => 'id']);
+        return $this->hasOne(Apartment::className(), ['id' => 'apartment_id']);
     }
 
     public function getAuthor()

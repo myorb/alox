@@ -53,8 +53,7 @@ class Apartment extends ActiveRecord
                 'image_link',
                 'html',
                 'like',
-                'currency'
-
+                'currency',
             ], 'safe'],
         ];
     }
@@ -80,7 +79,7 @@ class Apartment extends ActiveRecord
             'created_at',
             'updated_at',
             'like',
-            'currency'
+            'currency',
         ];
     }
 
@@ -93,11 +92,19 @@ class Apartment extends ActiveRecord
     {
         return $this->hasOne(Image::className(), ['id' => 'model_id']);
     }
+
+    public function getLikes()
+    {
+        return $this->hasMany(Like::className(), ['apartment_id' => 'id']);
+    }
+
     public function setlike(){
         return $this->like = $this->like == 1?0:1;
     }
     public function getFullPrice(){
-//        return $this->price;
         return number_format(filter_var($this->price, FILTER_SANITIZE_NUMBER_INT)).$this->currency;
+    }
+    public function getDateformated(){
+        return date("M-j H:i",$this->date);
     }
 }

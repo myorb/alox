@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\assets\AppAsset;
+use app\models\Like;
 use app\models\Query;
 use app\models\search\QuerySearch;
 use GuzzleHttp\Client;
@@ -79,11 +80,34 @@ class ApartmentController extends Controller
     }
 
     public function actionLike($id){
-        $model = $this->findModel($id);
-        if($model){
-            $model->setlike();
-            $model->save();
+        $apartment = $this->findModel($id);
+        if($apartment){
+//            $apartment->setlike();
+//            $apartment->save();
+//            if($apartment->like == 1){
+            $like = new Like();
+            $like->url = $apartment->url;
+            $like->save();
+            $like->link('apartment', $apartment);
+//            }else{
+//                $like = Like::findOne(['id'=>$apartment]);
+//                $like->unlink('apartment', $apartment);
+//            }
+
             return 'ok';
+        }
+        return 'error';
+    }
+
+    public function actionUnlike($id){
+        $apartment = $this->findModel($id);
+        if($apartment){
+            $like = Like::findOne(['apartment_id'=>$apartment->id,'author_id'=>\Yii::$app->user->id]);
+            if($like){
+                $like->delete();
+                return 'ok';
+            }
+//            $like->unlink('apartment', $apartment);
         }
         return 'error';
     }
@@ -101,8 +125,6 @@ class ApartmentController extends Controller
 
     function parseHtml($url, $query_id){
         $html = SHD::file_get_html($url);
-        date_default_timezone_set('Europe/Kiev');//or change to whatever timezone you want
-
         $count = 0;
         foreach($html->find('#offers_table',0)->find('.offer') as $element) {
             try {
@@ -153,13 +175,22 @@ class ApartmentController extends Controller
         $en_month = array( 'January', 'February', 'March', 'May', 'June', 'July', 'August', 'September', 'Oktober', 'November', 'December','today','yesterday' );
         $date_array = date_parse( str_replace( $ru_month, $en_month, $date ) ) ;
 
+        if (preg_match('/Вчера/',$date)) {
+            $date_array['month'] = $date_array['month']?$date_array['month']:date('n');
+            $date_array['day'] = $date_array['day']?$date_array['day']:date('j') - 1;
+            $date_array['year'] = $date_array['year']?$date_array['year']:date('Y');
+        }elseif (preg_match('/Сегодня/',$date)) {
+            $date_array['month'] = $date_array['month']?$date_array['month']:date('n');
+            $date_array['day'] = $date_array['day']?$date_array['day']:date('j');
+            $date_array['year'] = $date_array['year']?$date_array['year']:date('Y');
+        }
         return date('U', mktime(
-            $date_array['hour']?$date_array['hour']:date('H'),
-            $date_array['minute']?$date_array['minute']:date('s'),
-            $date_array['second']?$date_array['second']:date('i'),
-            $date_array['month']?$date_array['month']:date('m'),
-            $date_array['day']?$date_array['day']:date('d'),
-            $date_array['year']?$date_array['year']:date('Y')
+            $date_array['hour']     ? $date_array['hour']   : date('H'),
+            $date_array['minute']   ? $date_array['minute'] : date('i'),
+            $date_array['second']   ? $date_array['second'] : date('s'),
+            $date_array['month']    ? $date_array['month']  : date('n'),
+            $date_array['day']      ? $date_array['day']    : date('j'),
+            $date_array['year']     ? $date_array['year']   : date('Y')
         ));
     }
 
@@ -225,7 +256,7 @@ class ApartmentController extends Controller
             $this->findModel($apartments->id)->delete();
         }
 //        return $this->redirect(['index',Yii::$app->request->queryParams]);
-       return 'ok';
+        return 'ok';
     }
 
     /**

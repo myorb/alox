@@ -9,7 +9,6 @@ use kartik\grid\GridView;
  * Date: 13.02.16
  * Time: 20:38
  */
-
 echo GridView::widget([
     'dataProvider' => $dataProvider,
 //    'filterModel' => $searchModel,
@@ -45,9 +44,20 @@ echo GridView::widget([
 //                ],
 //            'query_id',
 //            'description',
-        'fullprice',
+//        'fullprice',
+        [
+            'label'=>'Price',
+            'filter'=>'price',
+            'format' => 'raw',
+            'value'=>function ($data) {
+                return $data->fullprice;
+            },
+        ],
+        'price',
 //                'address',
         'date:date',
+//        'dateformated',
+//        'datetwo',
         // 'show_on_map',
         // 'html',
 //             'query.name',
