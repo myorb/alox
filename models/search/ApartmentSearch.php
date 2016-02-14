@@ -2,6 +2,7 @@
 
 namespace app\models\search;
 
+use app\models\Query;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -81,5 +82,9 @@ class ApartmentSearch extends Apartment
             ->andFilterWhere(['in', 'updated_at', $this->updated_at]);
 
         return $dataProvider;
+    }
+
+    public static function count($id){
+        return Query::find()->where(['author_id' => Yii::$app->user->id])->where(['query_id' => $id])->count();
     }
 }

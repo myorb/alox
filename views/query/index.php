@@ -54,13 +54,15 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'name',
 //            'url:url',
 
-            [
-                'label'=>'Total',
-                'format' => 'raw',
-                'value'=>function ($data) {
-                    return count($data->apartments);
-                },
-            ],
+//            [
+//                'label'=>'Total',
+//                'format' => 'raw',
+//                'value'=>function ($data) {
+//                    return count($data->apartments);
+//                },
+//            ],
+            'totalApartments',
+//            'countAllNew',
 //            [
 //                'label'=>'AVR',
 //                'format' => 'raw',

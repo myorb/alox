@@ -105,6 +105,6 @@ class Apartment extends ActiveRecord
         return number_format(filter_var($this->price, FILTER_SANITIZE_NUMBER_INT)).$this->currency;
     }
     public function getDateformated(){
-        return date("M-j H:i",$this->date);
+        return date("j M H:i",$this->date);
     }
 }

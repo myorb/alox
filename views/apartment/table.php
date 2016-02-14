@@ -45,17 +45,33 @@ echo GridView::widget([
 //            'query_id',
 //            'description',
 //        'fullprice',
+//        [
+//            'label'=>'Price',
+//            'filter'=>'price',
+//            'format' => 'raw',
+//            'value'=>function ($data) {
+//                return $data->fullprice;
+//            },
+//        ],
+
         [
-            'label'=>'Price',
-            'filter'=>'price',
-            'format' => 'raw',
-            'value'=>function ($data) {
-                return $data->fullprice;
+            'attribute'=>'price',
+            'width'=>'70px',
+            'value'=>function ($model) {
+                return $model->fullprice;
             },
         ],
-        'price',
+        [
+            'attribute'=>'date',
+            'width'=>'70px',
+            'value'=>function ($model) {
+                return $model->dateformated;
+            },
+        ],
+
+//        'price',
 //                'address',
-        'date:date',
+//        'date:date',
 //        'dateformated',
 //        'datetwo',
         // 'show_on_map',

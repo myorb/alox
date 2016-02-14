@@ -7,6 +7,7 @@
  */
 namespace app\models;
 
+use app\models\search\ApartmentSearch;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\redis\ActiveRecord;
@@ -56,5 +57,25 @@ class Query extends ActiveRecord
     public function getAuthor()
     {
         return $this->hasOne(User::className(), ['id' => 'author_id']);
+    }
+
+    public function getToday(){
+//        return Apartment::find([['author_id', $this->author_id],['query_id', $this->id]])->count();
+        return ApartmentSearch::count($this->id);
+//        $this->getDb()->executeCommand('');
+
+    }
+
+    public function getTotalApartments(){
+        return Apartment::find()->where(['author_id' => \Yii::$app->user->id])->andWhere(['query_id' => $this->id])->count();
+    }
+
+    public function getCountAllNew(){
+        return Apartment::find()
+            ->where(['author_id' => \Yii::$app->user->id])
+            ->andFilterWhere(['in','query_id',$this->id])
+            ->andFilterWhere(['less','date',date('yesterday')])
+//            ->andWhere('query_id='.$this->id)
+            ->count();
     }
 }
