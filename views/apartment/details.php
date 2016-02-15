@@ -20,13 +20,7 @@ use yii\widgets\DetailView;
                     'format' => 'raw',
                     'value' => Html::a($model->title,$model->url,['target'=>'_blank']),
                 ],
-                [
-                    'attribute'=>'price',
-                    'width'=>'70px',
-                    'value'=>function ($model) {
-                        return $model->fullprice;
-                    },
-                ],
+                'fullprice',
                 'date:datetime'
             ],
         ]) ?>
@@ -39,13 +33,7 @@ use yii\widgets\DetailView;
                     'format' => 'raw',
                     'value' => Html::a($model->title,$model->url,['target'=>'_blank']),
                 ],
-                [
-                    'attribute'=>'price',
-                    'width'=>'70px',
-                    'value'=>function ($model) {
-                        return $model->fullprice;
-                    },
-                ],
+                'fullprice',
                 'date:datetime'
             ],
         ]) ?>
