@@ -35,14 +35,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::a($data->apartment->title,$data->apartment->url,['target'=>'_blank']);
                 },
             ],
-            'url:url'
+            'url:url',
 //            'registration_date',
 //            'author_id',
             // 'updater_id',
             // 'created_at',
             // 'updated_at',
 
-//            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn','template'=>'{delete}',],
         ],
     ]); ?>
     <?php Pjax::end(); ?></div>
