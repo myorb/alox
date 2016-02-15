@@ -76,7 +76,9 @@ $this->registerJs("$(function() {
                             url  : this.href,
                             success  : function(response) {
                                 if(response > 0){
-                                    $.pjax.reload('#apartments',{timeout:2200});  //Reload GridView
+                                    $.pjax.reload('#apartments',{timeout:2200}).on('pjax:end', function() {
+                                        $('#apartments tbody tr').slice( 0, response ).css( 'background', 'yellow' );
+                                    });
                                 }
                                 self.html('Upload ' + '<span class=badge>'+response+'</span>');
                             }
