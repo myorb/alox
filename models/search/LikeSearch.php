@@ -18,7 +18,7 @@ class LikeSearch extends Like
     public function rules()
     {
         return [
-            [['id', 'apartment_id', 'url', 'author_id', 'updater_id', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'apartment_id', 'url', 'author_id', 'updater_id', 'created_at', 'updated_at','title'], 'safe'],
         ];
     }
 
@@ -60,6 +60,7 @@ class LikeSearch extends Like
         $query->andFilterWhere(['like', 'id', $this->id])
             ->andFilterWhere(['like', 'apartment_id', $this->apartment_id])
             ->andFilterWhere(['like', 'url', $this->url])
+            ->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'author_id', $this->author_id])
             ->andFilterWhere(['like', 'updater_id', $this->updater_id])
             ->andFilterWhere(['like', 'created_at', $this->created_at])

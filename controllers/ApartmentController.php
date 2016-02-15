@@ -87,6 +87,7 @@ class ApartmentController extends Controller
 //            if($apartment->like == 1){
             $like = new Like();
             $like->url = $apartment->url;
+            $like->title = $apartment->title;
             $like->save();
             $like->link('apartment', $apartment);
 //            }else{

@@ -36,14 +36,14 @@ class Like extends ActiveRecord
     {
         return [
             [[ 'apartment_id', 'url'], 'required'],
-            [[ 'apartment_id', 'url'], 'safe'],
+            [[ 'apartment_id', 'url','title'], 'safe'],
             [[ 'url'], 'url'],
         ];
     }
 
     public function attributes()
     {
-        return ['id', 'apartment_id', 'url', 'author_id','updater_id','created_at','updated_at'];
+        return ['id', 'apartment_id', 'url', 'author_id','updater_id','created_at','updated_at','title'];
     }
 
 

@@ -27,12 +27,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
 //            'id',
-//            'apartment.title',
+            'apartment_id',
             [
                 'label'=>'Olx link',
                 'format' => 'raw',
                 'value'=>function ($data) {
-                    return Html::a($data->apartment->title,$data->apartment->url,['target'=>'_blank']);
+                    return Html::a($data->title,$data->url,['target'=>'_blank']);
                 },
             ],
             'url:url',

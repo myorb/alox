@@ -39,7 +39,7 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Query', 'url' => ['/query/index']],
             ['label' => 'Results', 'url' => ['/apartment/index']],
-            ['label' => 'Chosen', 'url' => ['/apartment/my']],
+//            ['label' => 'Chosen', 'url' => ['/apartment/my']],
             ['label' => 'LikS', 'url' => ['/like/index']],
 //            ['label' => 'Images', 'url' => ['/image/index']],
             ['label' => 'About', 'url' => ['/site/about']],
