@@ -106,7 +106,7 @@ class Apartment extends ActiveRecord
         return $this->like = $this->like == 1?0:1;
     }
     public function getFullPrice(){
-        return number_format(filter_var($this->price, FILTER_SANITIZE_NUMBER_INT)).$this->currency;
+        return number_format(filter_var($this->price, FILTER_SANITIZE_NUMBER_INT)).' '.$this->currency;
     }
     public function getDateformated(){
         return date("j M H:i",$this->date);

@@ -143,7 +143,7 @@ class ApartmentController extends Controller
                         $apartment->title       = trim($link->plaintext);
                         $apartment->address     = trim($breadcrumb->plaintext);
                         $apartment->price       = filter_var($price->plaintext, FILTER_SANITIZE_NUMBER_INT);
-                        $apartment->currency    = preg_replace('/\d+/u', '', $price->plaintext);
+                        $apartment->currency    = trim(preg_replace('/\d+/u', '', $price->plaintext));
                         $apartment->query_id    = $query_id;
                         $apartment->date        = $this->parseDate(trim($date->plaintext));
                         if($image)
