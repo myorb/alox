@@ -21,7 +21,7 @@ use yii\widgets\DetailView;
                     'value' => Html::a($model->title,$model->url,['target'=>'_blank']),
                 ],
                 'price',
-                'date'
+                'date:datetime'
             ],
         ]) ?>
         <?php echo$model->html ?>
@@ -34,7 +34,7 @@ use yii\widgets\DetailView;
                     'value' => Html::a($model->title,$model->url,['target'=>'_blank']),
                 ],
                 'price',
-                'date'
+                'date:datetime'
             ],
         ]) ?>
 
