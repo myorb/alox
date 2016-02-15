@@ -97,7 +97,7 @@ echo GridView::widget([
                     ]);
                 },
                 'like' => function ($url, $model, $key) {
-                    $html = $model->like?
+                    $html = count($model->likes)?
                         '<span class="glyphicon glyphicon-thumbs-down"></span>':
                         '<span class="glyphicon glyphicon-thumbs-up"></span>';
                     return Html::a( $html,['like','id'=>$model->id], [

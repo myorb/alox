@@ -27,15 +27,22 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
 //            'id',
-            'apartment.title',
-            'apartment.url:url',
+//            'apartment.title',
+            [
+                'label'=>'Olx link',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return Html::a($data->apartment->title,$data->apartment->url,['target'=>'_blank']);
+                },
+            ],
+            'url:url'
 //            'registration_date',
 //            'author_id',
             // 'updater_id',
             // 'created_at',
             // 'updated_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
+//            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
     <?php Pjax::end(); ?></div>

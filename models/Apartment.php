@@ -98,6 +98,10 @@ class Apartment extends ActiveRecord
         return $this->hasMany(Like::className(), ['apartment_id' => 'id']);
     }
 
+    public function is_like(){
+//        return $t
+    }
+
     public function setlike(){
         return $this->like = $this->like == 1?0:1;
     }
