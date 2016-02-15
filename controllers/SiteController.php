@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Apartment;
 use app\models\SignupForm;
 use Yii;
 use yii\filters\AccessControl;
@@ -119,5 +120,9 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionClear(){
+        return Apartment::deleteAll();
     }
 }
