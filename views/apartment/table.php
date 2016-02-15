@@ -100,7 +100,7 @@ echo GridView::widget([
                     $html = count($model->likes)?
                         '<span class="glyphicon glyphicon-thumbs-down"></span>':
                         '<span class="glyphicon glyphicon-thumbs-up"></span>';
-                    return Html::a( $html,['like','id'=>$model->id], [
+                    return Html::a( $html,[count($model->likes)?'unlike':'like','id'=>$model->id], [
                         'onclick'=>"$.get($(this).attr('href')).done(function(data){if(data=='ok')$(this).toggleClass('glyphicon-thumbs-up', 'glyphicon-thumbs-down')});$.pjax.reload('#apartments');return false",
                         'data-pjax' => '0',
                         'class'=>'btn btn-lg '
