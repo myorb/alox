@@ -70,7 +70,7 @@ $this->registerJs("$(function() {
                             'id' => 'refreshButton',
                             'onclick'=>"
                             var self = $(this);
-                            self.attr('disabled', true);
+                            self.toggleClass('disabled').unbind('click');
                             $.ajax({
                             type : 'GET',
                             url  : this.href,
@@ -84,7 +84,7 @@ $this->registerJs("$(function() {
                                 }
                                 self.html('Upload ' + '<span class=badge>'+response+'</span>');
                             }
-                            }).done(function(){self.removeAttr('disabled');});
+                            }).done(function(){self.toggleClass('disabled').bind('click');});
                             return false;",
                         ]
                     ) .
