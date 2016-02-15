@@ -24,7 +24,7 @@ echo GridView::widget([
 //                    'width'=>'36px',
             'format' => 'raw',
             'value'=>function ($data) {
-                return Html::img($data->image_link,['width'=>'230','height'=>'180']);
+                return Html::img($data->image_link,['height'=>'180']);
             },
         ],
 //            'title',
