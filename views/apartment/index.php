@@ -76,7 +76,7 @@ $this->registerJs("$(function() {
                             url  : this.href,
                             success  : function(response) {
                                 if(response > 0){
-                                    $.pjax.reload('#apartments',{timeout:2200}).on('pjax:end', function() {
+                                    $.pjax.reload('#apartments',{timeout:2200}).on('pjax:complete', function() {
                                         $('#apartments tbody tr').slice( 0, response ).css( 'background', 'yellow' );
                                     });
                                 }
