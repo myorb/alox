@@ -75,10 +75,10 @@ $this->registerJs("$(function() {
                             type : 'GET',
                             url  : this.href,
                             success  : function(response) {
+                                $('#apartments tbody tr').css( 'background', 'white' );
                                 if(response > 0){
                                     $.pjax.reload('#apartments',{timeout:2200});
                                     $('#apartments').on('pjax:complete', function() {
-                                        $('#apartments tbody tr').css( 'background', 'white' );
                                         $('#apartments tbody tr').slice( 0, response ).css( 'background', 'lightyellow' );
                                     });
                                 }
