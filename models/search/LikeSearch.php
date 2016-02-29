@@ -48,6 +48,8 @@ class LikeSearch extends Like
             'query' => $query,
         ]);
 
+        $this->author_id = Yii::$app->user->isGuest ? 0 :\Yii::$app->user->id;
+
         $this->load($params);
 
         if (!$this->validate()) {
