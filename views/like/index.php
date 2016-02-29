@@ -42,7 +42,24 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'created_at',
             // 'updated_at',
 
-            ['class' => 'yii\grid\ActionColumn','template'=>'{delete}',],
+//            ['class' => 'yii\grid\ActionColumn','template'=>'{delete}',],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'header'=>'Action',
+                'template' => '{delete}{up}',
+                'headerOptions' => ['width' => '20px',],
+                'contentOptions' => ['class' => 'padding-left-5px'],
+                'buttons' => [
+                    'up' => function ($url, $model, $key) {
+                        $html = '<span class="glyphicon glyphicon-thumbs-up"></span>';
+                        return Html::a( $html,['up','id'=>$model->id], [
+                            'onclick'=>"$.get($(this).attr('href')).done(function(data){alert(data);});return false",
+                            'data-pjax' => '0',
+                            'class'=>'btn btn-lg '
+                        ]);
+                    },
+                ],
+            ],
         ],
     ]); ?>
     <?php Pjax::end(); ?></div>

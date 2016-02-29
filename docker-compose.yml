@@ -1,0 +1,15 @@
+php:
+  image: codemix/yii2-base
+  links:
+    - 'redis'
+
+nginx:
+  image: phundament/nginx-one:1.9
+  links:
+    - 'php:PHPFPM'
+
+redis:
+    image: redis
+    ports:
+        - "6379:6379"
+    restart: always

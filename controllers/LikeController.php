@@ -121,4 +121,20 @@ class LikeController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionUp($id){
+        $model = $this->findModel($id);
+        $count = 0;
+        for($i=0;$i<100;$i++){
+            try{
+                sleep(7);
+                $html = SHD::file_get_html($model->url);
+                $model->html = $html->find('.offercontentinner',0);
+                $count++;
+            }catch (\Exception $e){
+                continue;
+            }
+        }
+        return $count>0?"Was added ".$count." views":"We are band from olx !!! STOP PUSH THIS BUTTON!";
+    }
 }
