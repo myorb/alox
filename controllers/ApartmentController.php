@@ -53,7 +53,7 @@ class ApartmentController extends Controller
     {
         $searchModel = new ApartmentSearch();
         $r = Yii::$app->request->queryParams;
-        $r['view'] = in_array(isset($r['view']),['table','grid'])?$r['view']:'table';
+        $r['view'] = in_array(isset($r['view']),['table','grid'])?$r['view']:'grid';
 
         $dataProvider = $searchModel->search($r);
 

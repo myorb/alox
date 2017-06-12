@@ -31,14 +31,9 @@ $this->registerJs("$(function() {
         <?php  //echo $this->render('_search', ['model' => $searchModel]); ?>
 
         <div class="dropdown pull-right">
-            <a href="#" data-toggle="dropdown" class="dropdown-toggle">View <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-                <li>
-                    <?=Html::a('<span class="glyphicon glyphicon-th"> Gallery</span>', [\yii\helpers\Url::current(['view'=>'grid'])]) ?>
-                    <?=Html::a('<span class="glyphicon glyphicon-th-list"> Table</span>', [\yii\helpers\Url::current(['view'=>'table'])]) ?>
-                    <?=Html::a('<span class="glyphicon glyphicon-globe"> Map</span>', [\yii\helpers\Url::current(['view'=>'map'])]) ?>
-                </li>
-            </ul>
+            <?=Html::a('<span class="glyphicon glyphicon-th"></span>', [\yii\helpers\Url::current(['view'=>'grid'])]) ?>
+            <?=Html::a('<span class="glyphicon glyphicon-th-list"></span>', [\yii\helpers\Url::current(['view'=>'table'])]) ?>
+            <?=Html::a('<span class="glyphicon glyphicon-globe"></span>', [\yii\helpers\Url::current(['view'=>'map'])]) ?>
         </div>
 
         <?php
