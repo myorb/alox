@@ -244,6 +244,42 @@ class ApartmentController extends Controller
         }
     }
 
+
+    /**
+     * Spam an existing Apartment model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionSpam($id)
+    {
+        $model = $this->findModel($id);
+//        var_dump($model);
+        for($i=0;$i<100;$i++){
+            usleep(300000);
+            $html = SHD::file_get_html($model->url);
+        }
+        $model->html = $html->find('.offercontentinner',0);
+//            $model->description = $html->find('.offercontentinner',0);
+//            $model->phones = $html->find('.offercontentinner',0);
+//            $model->sows = $html->find('.offercontentinner',0);
+//            $model->rooms = $html->find('.offercontentinner',0);
+//            $model->rent_types = $html->find('.offercontentinner',0);
+//            $model->images = $html->find('.offercontentinner',0);
+//            $model->sows = $html->find('.offercontentinner',0);
+//            $model->sows = $html->find('.offercontentinner',0);
+        $model->save();
+
+
+//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+//        } else {
+//            return $this->render('update', [
+//                'model' => $model,
+//            ]);
+//        }
+    }
+
     /**
      * Deletes an existing Apartment model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
